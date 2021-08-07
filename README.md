@@ -1,7 +1,7 @@
 # SortsWebApi
 Самостоятельный проект, для набора опыта разработки
 ## Пример использования
-Пример Get запроса для сортировки вставками: ```Sort/InsertionSort?array=23&array=5&array=0```
+Пример GET запроса для сортировки вставками: ```Sort/InsertionSort?array=23&array=5&array=0```
 
 Ответ: 
 ```
@@ -14,7 +14,9 @@
 "requestTime":"2021-08-07T17:09:57.6973821+03:00"
 }
 ```
-Пример Get запроса для сортировки пузырьком: ```/Sort/BubbleSort?array=-2&array=1&array=0&array=47&array=5&array=6&array=-6```
+Пример GET запроса для сортировки пузырьком: ```/Sort/BubbleSort?array=-2&array=1&array=0&array=47&array=5&array=6&array=-6```
+
+Ответ: 
 ```
 { 
 "id":11,
