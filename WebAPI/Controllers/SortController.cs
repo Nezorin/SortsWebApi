@@ -25,21 +25,21 @@ namespace WebAPI.Controllers
         }
         [HttpGet]
         [Route("/sort/BubbleSort")]
-        public SortingResult BubbleSort([FromQuery] int[] array)
+        public ActionResult<SortingResult> BubbleSort([FromQuery] int[] array)
         {
-            return bubbleSort.Sort(array);
+            return Ok(bubbleSort.Sort(array));
         }
         [HttpGet]
         [Route("/sort/InsertionSort")]
-        public SortingResult InsertionSort([FromQuery] int[] array)
+        public ActionResult<SortingResult> InsertionSort([FromQuery] int[] array)
         {
-            return insertionSort.Sort(array);
+            return Ok(insertionSort.Sort(array));
         }
         [HttpGet]
         [Route("/sort/SelectionSort")]
-        public SortingResult SelectionSort([FromQuery] int[] array)
+        public ActionResult<SortingResult> SelectionSort([FromQuery] int[] array)
         {
-            return selectionSort.Sort(array);
+            return Ok(selectionSort.Sort(array));
         }
     }
 }
