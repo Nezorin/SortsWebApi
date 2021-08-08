@@ -19,13 +19,13 @@ namespace Sorts
         }
         public abstract SortingResult Sort(int[] array);
         /// <summary>
-        /// Swap without third variable
+        /// Swap with third variable
         /// </summary>
-        public static void Swap(ref int a, ref int b)
+        public static void Swap<T>(ref T a, ref T b)
         {
-            a = a + b;
-            b = a - b;
-            a = a - b;
+            T temp = a;
+            a = b;
+            b = temp;
         }
         public static SortingResult CreateSortingResult(int[] array, string sortName)
         {

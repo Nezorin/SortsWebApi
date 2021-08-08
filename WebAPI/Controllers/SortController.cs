@@ -11,12 +11,14 @@ namespace WebAPI.Controllers
         private readonly BubbleSort bubbleSort;
         private readonly SelectionSort selectionSort;
         private readonly InsertionSort insertionSort;
+        private readonly BogoSort bogoSort;
 
         public SortController()
         {
             bubbleSort = new BubbleSort();
             selectionSort = new SelectionSort();
             insertionSort = new InsertionSort();
+            bogoSort = new BogoSort();
         }
         [HttpGet]
         public ActionResult Get()
@@ -40,6 +42,12 @@ namespace WebAPI.Controllers
         public ActionResult<SortingResult> SelectionSort([FromQuery] int[] array)
         {
             return Ok(selectionSort.Sort(array));
+        }
+        [HttpGet]
+        [Route("/sort/BogoSort")]
+        public ActionResult<SortingResult> BogoSort([FromQuery] int[] array)
+        {
+            return Ok(bogoSort.Sort(array));
         }
     }
 }
