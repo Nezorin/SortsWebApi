@@ -12,6 +12,7 @@ namespace WebAPI.Controllers
         private readonly SelectionSort selectionSort;
         private readonly InsertionSort insertionSort;
         private readonly BogoSort bogoSort;
+        private readonly MergeSort mergeSort;
 
         public SortController()
         {
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
             selectionSort = new SelectionSort();
             insertionSort = new InsertionSort();
             bogoSort = new BogoSort();
+            mergeSort = new MergeSort();
         }
         [HttpGet]
         public ActionResult Get()
@@ -48,6 +50,12 @@ namespace WebAPI.Controllers
         public ActionResult<SortingResult> BogoSort([FromQuery] int[] array)
         {
             return Ok(bogoSort.Sort(array));
+        }
+        [HttpGet]
+        [Route("/sort/MergeSort")]
+        public ActionResult<SortingResult> MergeSort([FromQuery] int[] array)
+        {
+            return Ok(mergeSort.Sort(array));
         }
     }
 }
