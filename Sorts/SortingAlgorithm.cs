@@ -1,20 +1,13 @@
-﻿using Sorts.Data;
-using Sorts.Models;
+﻿using Sorts.Models;
 using System.Diagnostics;
 
 namespace Sorts
 {
     public abstract class SortingAlgorithm
     {
-        protected ApplicationContext db { get; set; }
         protected Stopwatch stopwatch { get; set; }
-        public SortingAlgorithm() : this(new ApplicationContext())
+        public SortingAlgorithm()
         {
-
-        }
-        public SortingAlgorithm(ApplicationContext dbContext)
-        {
-            db = dbContext;
             stopwatch = new Stopwatch();
         }
         public abstract SortingResult Sort(int[] array);

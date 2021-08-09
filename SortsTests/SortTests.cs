@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Sorts;
-using Sorts.Data;
+﻿using Sorts;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace SortsTests
@@ -10,14 +7,9 @@ namespace SortsTests
     public class SortTests
     {
         private readonly SortingAlgorithm sort;
-        private readonly ApplicationContext context;
         public SortTests()
         {
-            var options = new DbContextOptionsBuilder<ApplicationContext>()
-                  .UseNpgsql("Host=localhost;Port=5432;Database=SortsResultsTEST;Username=postgres;Password=1345")
-                  .Options;
-            context = new ApplicationContext(options);
-            sort = new SelectionSort(context); //Choose sort to test
+            sort = new SelectionSort(); //Choose sort to test
         }
         [Fact]
         public void Sort_Null_ThrowsNullReferenceException()
@@ -57,17 +49,6 @@ namespace SortsTests
 
             Assert.NotNull(result);
             Assert.Equal(expected, result.SortedArray);
-        }
-        [Fact]
-        public void Sort_DefaultArray_SavesDataToDataBase()
-        {
-            context.Results.RemoveRange(context.Results);
-            context.SaveChanges();
-            int[] array = new int[] { 5, 1, 4, 2, 8 };
-
-            sort.Sort(array);
-
-            Assert.Equal(1, context.Results.Count());
         }
     }
 }

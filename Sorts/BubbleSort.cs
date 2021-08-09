@@ -1,5 +1,4 @@
-﻿using Sorts.Data;
-using Sorts.Models;
+﻿using Sorts.Models;
 
 namespace Sorts
 {
@@ -25,17 +24,7 @@ namespace Sorts
             stopwatch.Stop();
 
             sortingResult.SortingTime = stopwatch.Elapsed;
-            db.Results.Add(sortingResult);
-            db.SaveChanges();
             return sortingResult;
-        }
-        public BubbleSort(ApplicationContext dbContext) : base(dbContext)
-        {
-
-        }
-        public BubbleSort()
-        {
-
         }
     }
 }

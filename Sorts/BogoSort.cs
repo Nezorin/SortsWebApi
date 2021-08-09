@@ -1,5 +1,4 @@
-﻿using Sorts.Data;
-using Sorts.Models;
+﻿using Sorts.Models;
 using System;
 
 namespace Sorts
@@ -20,8 +19,6 @@ namespace Sorts
             stopwatch.Stop();
 
             sortingResult.SortingTime = stopwatch.Elapsed;
-            db.Results.Add(sortingResult);
-            db.SaveChanges();
             return sortingResult;
         }
 
@@ -42,15 +39,6 @@ namespace Sorts
                     return false;
             }
             return true;
-        }
-
-        public BogoSort(ApplicationContext dbContext) : base(dbContext)
-        {
-
-        }
-        public BogoSort()
-        {
-
         }
     }
 }

@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using WebAPI.Data_Acces;
 
 namespace WebAPI
 {
@@ -22,20 +24,25 @@ namespace WebAPI
         {
 
             services.AddControllers();
-            services.AddSwaggerGen( c =>
-                {
-                    c.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Version = "v1",
-                        Title = "Sorts API",
-                        Description = "A simple example ASP.NET Core Web API",
-                        Contact = new OpenApiContact
-                        {
-                            Name = "Nikolay Isupov",
-                            Url = new Uri("https://github.com/Nezorin"),
-                        },
-                    });
-                });
+
+            services.AddDbContext<DataContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultLocalConnection")));
+            services.AddScoped<IDbRepository, DbRepository>();
+
+            services.AddSwaggerGen(c =>
+               {
+                   c.SwaggerDoc("v1", new OpenApiInfo
+                   {
+                       Version = "v1",
+                       Title = "Sorts API",
+                       Description = "A simple example ASP.NET Core Web API",
+                       Contact = new OpenApiContact
+                       {
+                           Name = "Nikolay Isupov",
+                           Url = new Uri("https://github.com/Nezorin"),
+                       },
+                   });
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

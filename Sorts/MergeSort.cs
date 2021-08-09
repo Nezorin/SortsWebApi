@@ -1,5 +1,4 @@
-﻿using Sorts.Data;
-using Sorts.Models;
+﻿using Sorts.Models;
 
 namespace Sorts
 {
@@ -16,8 +15,6 @@ namespace Sorts
             stopwatch.Stop();
 
             sortingResult.SortingTime = stopwatch.Elapsed;
-            db.Results.Add(sortingResult);
-            db.SaveChanges();
             return sortingResult;
         }
         private static int[] MergeSorting(int[] array, int lowIndex, int highIndex)
@@ -70,14 +67,6 @@ namespace Sorts
             {
                 array[lowIndex + i] = tempArray[i];
             }
-        }
-        public MergeSort(ApplicationContext dbContext) : base(dbContext)
-        {
-
-        }
-        public MergeSort()
-        {
-
         }
     }
 }

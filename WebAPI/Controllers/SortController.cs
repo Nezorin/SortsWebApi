@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sorts;
 using Sorts.Models;
+using System.Linq;
+using WebAPI.Data_Acces;
 
 namespace WebAPI.Controllers
 {
@@ -8,14 +10,16 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class SortController : ControllerBase
     {
+        private readonly IDbRepository _dbRepository;
         private readonly BubbleSort bubbleSort;
         private readonly SelectionSort selectionSort;
         private readonly InsertionSort insertionSort;
         private readonly BogoSort bogoSort;
         private readonly MergeSort mergeSort;
 
-        public SortController()
+        public SortController(IDbRepository dbRepository)
         {
+            _dbRepository = dbRepository;
             bubbleSort = new BubbleSort();
             selectionSort = new SelectionSort();
             insertionSort = new InsertionSort();
@@ -23,39 +27,39 @@ namespace WebAPI.Controllers
             mergeSort = new MergeSort();
         }
         [HttpGet]
-        public ActionResult Get()
+        [Route("/Sort/GetAll")]
+        public ActionResult<IQueryable<SortingResult>> GetAll()
         {
-            return Ok();
+            return Ok(_dbRepository.GetAll());
         }
         [HttpGet]
-        [Route("/sort/BubbleSort")]
-        public ActionResult<SortingResult> BubbleSort([FromQuery] int[] array)
+        [Route("/Sort/{sortName}")]
+        public ActionResult<SortingResult> Sort([FromRoute] string sortName, [FromQuery] int[] array)
         {
-            return Ok(bubbleSort.Sort(array));
-        }
-        [HttpGet]
-        [Route("/sort/InsertionSort")]
-        public ActionResult<SortingResult> InsertionSort([FromQuery] int[] array)
-        {
-            return Ok(insertionSort.Sort(array));
-        }
-        [HttpGet]
-        [Route("/sort/SelectionSort")]
-        public ActionResult<SortingResult> SelectionSort([FromQuery] int[] array)
-        {
-            return Ok(selectionSort.Sort(array));
-        }
-        [HttpGet]
-        [Route("/sort/BogoSort")]
-        public ActionResult<SortingResult> BogoSort([FromQuery] int[] array)
-        {
-            return Ok(bogoSort.Sort(array));
-        }
-        [HttpGet]
-        [Route("/sort/MergeSort")]
-        public ActionResult<SortingResult> MergeSort([FromQuery] int[] array)
-        {
-            return Ok(mergeSort.Sort(array));
+            SortingResult sortedArray;
+            switch (sortName)
+            {
+                case "BubbleSort":
+                    sortedArray = bubbleSort.Sort(array);
+                    break;
+                case "InsertionSort":
+                    sortedArray = insertionSort.Sort(array);
+                    break;
+                case "SelectionSort":
+                    sortedArray = selectionSort.Sort(array);
+                    break;
+                case "MergeSort":
+                    sortedArray = mergeSort.Sort(array);
+                    break;
+                case "BogoSort":
+                    sortedArray = bogoSort.Sort(array);
+                    break;
+                default:
+                    return BadRequest();
+            }
+            _dbRepository.Add(sortedArray);
+            _dbRepository.SaveChanges();
+            return Ok(sortedArray);
         }
     }
 }
