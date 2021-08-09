@@ -1,30 +1,30 @@
 # SortsWebApi
 Самостоятельный проект, для набора опыта разработки
 ## Пример использования
-Пример GET запроса для сортировки вставками: ```Sort/InsertionSort?array=23&array=5&array=0```
+Пример GET запроса для сортировки слиянияем: ```https://localhost:5001/Sort/MergeSort?array=12441&array=-234&array=0&array=0&array=1&array=0&array=124&array=12&array=13&array=-8&array=124421```
 
 Ответ: 
 ```
-{ 
-"id":10,
-"sortName":"InsertionSort",
-"startArray":[23,5,0],
-"sortedArray":[0,5,23],
-"sortingTime":{"ticks":2,"days":0,"hours":0,"milliseconds":0,"minutes":0,"seconds":0,"totalDays":2.3148148148148147E-12,"totalHours":5.5555555555555553E-11,"totalMilliseconds":0.0002,"totalMinutes":3.3333333333333334E-09,"totalSeconds":2E-07},
-"requestTime":"2021-08-07T17:09:57.6973821+03:00"
+{
+"id":20,
+"sortName":"MergeSort",
+"startArray":[12441, -234, 0, 0, 1, 0, 124, 12, 13, -8, 124421],
+"sortedArray":[-234, -8, 0, 0, 0, 1, 12, 13, 124, 12441, 124421],
+"sortingTime":{"ticks":2650,"days":0,"hours":0,"milliseconds":0,"minutes":0,"seconds":0,"totalDays":3.0671296296296296E-09,"totalHours":7.361111111111111E-08,"totalMilliseconds":0.265,"totalMinutes":4.416666666666667E-06,"totalSeconds":0.000265},
+"requestTime":"2021-08-09T19:26:21.678226+03:00"
 }
 ```
-Пример GET запроса для сортировки пузырьком: ```/Sort/BubbleSort?array=-2&array=1&array=0&array=47&array=5&array=6&array=-6```
+Пример GET запроса для случайной сортировки: ```https://localhost:5001/Sort/BogoSort?array=12441&array=-234&array=0&array=0&array=1&array=0&array=124&array=12&array=13&array=-8&array=124421```
 
 Ответ: 
-```
-{ 
-"id":11,
-"sortName":"BubbleSort",
-"startArray":[-2,1,0,47,5,6,-6],
-"sortedArray":[-6,-2,0,1,5,6,47],
-"sortingTime":{"ticks":6,"days":0,"hours":0,"milliseconds":0,"minutes":0,"seconds":0,"totalDays":6.944444444444444E-12,"totalHours":1.6666666666666666E-10,"totalMilliseconds":0.0006,"totalMinutes":1E-08,"totalSeconds":6E-07},
-"requestTime":"2021-08-07T17:15:00.8610892+03:00"
+``` 
+{
+"id": 19,
+"sortName":"BogoSort",
+"startArray":[12441, -234, 0, 0, 1, 0, 124, 12, 13, 8, 124421],
+"sortedArray":[-234, -8, 0, 0, 0, 1, 12, 13, 124, 12441, 124421],
+"sortingTime":{"ticks":129127766,"days":0,"hours":0,"milliseconds":912,"minutes":0,"seconds":12,"totalDays":0.00014945343287037037,"totalHours":     0.003586882388888889,"totalMilliseconds":12912.7766,"totalMinutes":0.21521294333333332,"totalSeconds":12.9127766},
+"requestTime":"2021-08-09T19:22:09.5751466+03:00"
 }
 ```
 ## Технологии
@@ -33,3 +33,4 @@
  - **Entity Framework Core**
  - **xUnit**
  - **PostgreSQL**
+ - **Swagger**
