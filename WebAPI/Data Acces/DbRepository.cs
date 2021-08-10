@@ -1,6 +1,8 @@
-﻿using Sorts.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Sorts.Models;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Data_Acces
 {
@@ -11,17 +13,17 @@ namespace WebAPI.Data_Acces
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
         }
-        public SortingResult Add(SortingResult result)
+        public async Task AddAsync(SortingResult result)
         {
-            return _context.Results.Add(result).Entity;
+            await _context.Results.AddAsync(result);
         }
-        public IQueryable<SortingResult> GetAll() //TODO ienumarable OR iqueryable
+        public async Task<IEnumerable<SortingResult>> GetAllAsync()
         {
-            return _context.Results.AsQueryable();
+            return await _context.Results.ToListAsync();
         }
-        public int SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            return _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

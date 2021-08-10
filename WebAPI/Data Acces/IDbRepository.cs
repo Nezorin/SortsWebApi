@@ -1,12 +1,13 @@
 ﻿using Sorts.Models;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Data_Acces
 {
     public interface IDbRepository
     {
-        IQueryable<SortingResult> GetAll();
-        public SortingResult Add(SortingResult result);
-        int SaveChanges();
+        Task<IEnumerable<SortingResult>> GetAllAsync();
+        Task AddAsync(SortingResult result);
+        Task SaveChangesAsync();
     }
 }

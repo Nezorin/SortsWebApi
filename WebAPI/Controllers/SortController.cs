@@ -2,6 +2,7 @@
 using Sorts;
 using Sorts.Models;
 using System.Linq;
+using System.Threading.Tasks;
 using WebAPI.Data_Acces;
 
 namespace WebAPI.Controllers
@@ -28,13 +29,13 @@ namespace WebAPI.Controllers
         }
         [HttpGet]
         [Route("/Sort/GetAll")]
-        public ActionResult<IQueryable<SortingResult>> GetAll()
+        public async Task<ActionResult<IQueryable<SortingResult>>> GetAllAsync()
         {
-            return Ok(_dbRepository.GetAll());
+            return Ok(await _dbRepository.GetAllAsync());
         }
         [HttpGet]
         [Route("/Sort/{sortName}")]
-        public ActionResult<SortingResult> Sort([FromRoute] string sortName, [FromQuery] int[] array)
+        public async Task<ActionResult<SortingResult>> SortAsync([FromRoute] string sortName, [FromQuery] int[] array)
         {
             SortingResult sortedArray;
             switch (sortName)
@@ -57,8 +58,8 @@ namespace WebAPI.Controllers
                 default:
                     return BadRequest();
             }
-            _dbRepository.Add(sortedArray);
-            _dbRepository.SaveChanges();
+            await _dbRepository.AddAsync(sortedArray);
+            await _dbRepository.SaveChangesAsync();
             return Ok(sortedArray);
         }
     }
