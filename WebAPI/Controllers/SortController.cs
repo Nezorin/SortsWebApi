@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sorts;
 using Sorts.Models;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Data_Acces;
 
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         }
         [HttpGet]
         [Route("/Sort/GetAll")]
-        public async Task<ActionResult<IQueryable<SortingResult>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<SortingResult>>> GetAllAsync()
         {
             return Ok(await _dbRepository.GetAllAsync());
         }
