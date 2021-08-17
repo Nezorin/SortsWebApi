@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Sorts;
 using Sorts.Models;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace WebApiTests
             var expectedItems = CreateTestItems();
             repositoryStub.Setup(repo => repo.GetAllAsync())
                 .ReturnsAsync(expectedItems);
-            var controller = new SortController(repositoryStub.Object);
+            var controller = new SortController(repositoryStub.Object, new SortService());
 
             var actionResult = await controller.GetAllAsync();
             var result = actionResult.Result as OkObjectResult;
@@ -32,7 +33,7 @@ namespace WebApiTests
         {
             var arrayToSort = new int[] { 124124, 0, 0, -2, -5, 325, 0, 423, 1 };
             var sortedArray = new int[] { -5, -2, 0, 0, 0, 1, 325, 423, 124124 };
-            var controller = new SortController(repositoryStub.Object);
+            var controller = new SortController(repositoryStub.Object, new SortService());
 
             var actionResult = await controller.SortAsync("InsertionSort", arrayToSort);
             var okResult = actionResult.Result as OkObjectResult;

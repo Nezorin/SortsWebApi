@@ -12,20 +12,12 @@ namespace WebAPI.Controllers
     public class SortController : ControllerBase
     {
         private readonly IDbRepository _dbRepository;
-        private readonly BubbleSort bubbleSort;
-        private readonly SelectionSort selectionSort;
-        private readonly InsertionSort insertionSort;
-        private readonly BogoSort bogoSort;
-        private readonly MergeSort mergeSort;
+        private readonly ISortService _sortService;
 
-        public SortController(IDbRepository dbRepository)
+        public SortController(IDbRepository dbRepository, ISortService sortService)
         {
             _dbRepository = dbRepository;
-            bubbleSort = new BubbleSort();
-            selectionSort = new SelectionSort();
-            insertionSort = new InsertionSort();
-            bogoSort = new BogoSort();
-            mergeSort = new MergeSort();
+            _sortService = sortService;
         }
         [HttpGet]
         [Route("/Sort/GetAll")]
@@ -37,26 +29,10 @@ namespace WebAPI.Controllers
         [Route("/Sort/{sortName}")]
         public async Task<ActionResult<SortingResult>> SortAsync([FromRoute] string sortName, [FromQuery] int[] array)
         {
-            SortingResult sortedArray;
-            switch (sortName)
+            SortingResult sortedArray = _sortService.Sort(array, sortName);
+            if (sortedArray == null)
             {
-                case "BubbleSort":
-                    sortedArray = bubbleSort.Sort(array);
-                    break;
-                case "InsertionSort":
-                    sortedArray = insertionSort.Sort(array);
-                    break;
-                case "SelectionSort":
-                    sortedArray = selectionSort.Sort(array);
-                    break;
-                case "MergeSort":
-                    sortedArray = mergeSort.Sort(array);
-                    break;
-                case "BogoSort":
-                    sortedArray = bogoSort.Sort(array);
-                    break;
-                default:
-                    return BadRequest();
+                return BadRequest();
             }
             await _dbRepository.AddAsync(sortedArray);
             await _dbRepository.SaveChangesAsync();

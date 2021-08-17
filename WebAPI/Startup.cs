@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sorts;
 using System;
 using WebAPI.Data_Acces;
 
@@ -28,6 +29,7 @@ namespace WebAPI
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultLocalConnection")));
             services.AddScoped<IDbRepository, DbRepository>();
+            services.AddTransient<ISortService, SortService>();
 
             services.AddSwaggerGen(c =>
                {
