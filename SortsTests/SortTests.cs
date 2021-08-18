@@ -6,48 +6,51 @@ namespace SortsTests
 {
     public class SortTests
     {
-        private readonly SortingAlgorithm sort;
-        public SortTests()
+        [Theory]
+        [ClassData(typeof(SortsToTestWithTheoryData))]
+        public void Sort_Null_ThrowsNullReferenceException(SortingAlgorithm sortingAlgorithm)
         {
-            sort = new SelectionSort(); //Choose sort to test
+            Assert.Throws<NullReferenceException>(() => sortingAlgorithm.Sort(null));
         }
-        [Fact]
-        public void Sort_Null_ThrowsNullReferenceException()
+        [Theory]
+        [ClassData(typeof(SortsToTestWithTheoryData))]
+        public void Sort_EmptyArray_ReturnsEmptyArray(SortingAlgorithm sortingAlgorithm)
         {
-            Assert.Throws<NullReferenceException>(() => sort.Sort(null));
+            var result = sortingAlgorithm.Sort(Array.Empty<int>());
+
+            Assert.Equal(Array.Empty<int>(), result.SortedArray);
         }
-        [Fact]
-        public void Sort_SingleNumberArray_ReturnsSameArray()
+        [Theory]
+        [ClassData(typeof(SortsToTestWithTheoryData))]
+        public void Sort_SingleNumberArray_ReturnsSingleNumberArray(SortingAlgorithm sortingAlgorithm)
         {
             int[] array = new int[] { 4 };
-            int[] expected = new[] { 4 };
+            int[] expected = new int[] { 4 };
 
-            var result = sort.Sort(array);
+            var result = sortingAlgorithm.Sort(array);
 
             Assert.Equal(expected, result.SortedArray);
         }
-        [Fact]
-        public void Sort_DefaultArray_ReturnsGivenArray()
+        [Theory]
+        [ClassData(typeof(SortsToTestWithTheoryData))]
+        public void Sort_DefaultArray_ReturnsGivenArrayAsStartArray(SortingAlgorithm sortingAlgorithm)
         {
             int[] array = new int[] { 5, 1, 4, 2, 8 };
-            int[] copyOfStartArray = new int[] { 5, 1, 4, 2, 8 };
+            int[] expected = new int[] { 5, 1, 4, 2, 8 };
 
-            var result = sort.Sort(array);
+            var result = sortingAlgorithm.Sort(array);
 
-            Assert.Equal(copyOfStartArray, result.StartArray);
+            Assert.Equal(expected, result.StartArray);
         }
         [Theory]
-        [InlineData(new int[] { 3, 1 }, new int[] { 1, 3 })]
-        [InlineData(new int[] { 1, 5, 3, 2 }, new int[] { 1, 2, 3, 5 })]
-        [InlineData(new int[] { 5, 1, 4, 2, 8 }, new int[] { 1, 2, 4, 5, 8 })]
-        [InlineData(new int[] { -2, 1, 0, 47, 5, 6, -6 }, new int[] { -6, -2, 0, 1, 5, 6, 47 })]
-        [InlineData(new int[] { -1, -234, 0, 0, 2535325, 2342, 0, -43214, 5, 55 }, new int[] { -43214, -234, -1, 0, 0, 0, 5, 55, 2342, 2535325 })]
-
-        public void Sort_DefaultArray_ReturnsSortedArray(int[] input, int[] expected)
+        [ClassData(typeof(SortsToTestWithTheoryData))]
+        public void Sort_DefaultArray_ReturnsSortedArray(SortingAlgorithm sortingAlgorithm)
         {
-            var result = sort.Sort(input);
+            int[] array = new int[] { -1, -234, 0, 0, 2535325, 2342, 0, -43214, 5, 55 };
+            int[] expected = new int[] { -43214, -234, -1, 0, 0, 0, 5, 55, 2342, 2535325 };
 
-            Assert.NotNull(result);
+            var result = sortingAlgorithm.Sort(array);
+
             Assert.Equal(expected, result.SortedArray);
         }
     }
