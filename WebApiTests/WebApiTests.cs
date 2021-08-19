@@ -28,18 +28,33 @@ namespace WebApiTests
 
             result.Value.Should().BeEquivalentTo(expectedItems);
         }
-        [Fact]
-        public async Task SortAsync_WithUnsortedArray_ReturnsSortedArray()
+        [Theory]
+        [InlineData("InsertionSort")]
+        [InlineData("SelectionSort")]
+        [InlineData("BubbleSort")]
+        [InlineData("MergeSort")]
+        [InlineData("BogoSort")]
+        public async Task SortAsync_WithUnsortedArray_ReturnsSortedArray(string sortName)
         {
             var arrayToSort = new int[] { 124124, 0, 0, -2, -5, 325, 0, 423, 1 };
             var sortedArray = new int[] { -5, -2, 0, 0, 0, 1, 325, 423, 124124 };
             var controller = new SortController(repositoryStub.Object, new SortService());
 
-            var actionResult = await controller.SortAsync("InsertionSort", arrayToSort);
+            var actionResult = await controller.SortAsync(sortName, arrayToSort);
             var okResult = actionResult.Result as OkObjectResult;
             var result = okResult.Value as SortingResult;
 
-            Assert.Equal(sortedArray, result.SortedArray);
+            result.SortedArray.Should().Equal(sortedArray);
+        }
+        [Fact]
+        public async Task SortAsync_WithWrongRouteData_ReturnsBadRequest()
+        {
+            var arrayToSort = new int[] { 0, 0, -2 };
+            var controller = new SortController(repositoryStub.Object, new SortService());
+
+            var actionResult = await controller.SortAsync("WrongRouteData", arrayToSort);
+
+            actionResult.Result.Should().BeOfType(typeof(BadRequestResult));
         }
 
         private static IEnumerable<SortingResult> CreateTestItems()
